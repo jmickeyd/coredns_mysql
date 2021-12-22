@@ -42,8 +42,8 @@ func setup(c *caddy.Controller) error {
 
 func mysqlParse(c *caddy.Controller) (*CoreDNSMySql, error) {
 	mysql := CoreDNSMySql{
-		TablePrefix: "coredns_",
-		Ttl:         300,
+		TableName: "records",
+		Ttl:       300,
 	}
 	var err error
 
@@ -56,11 +56,11 @@ func mysqlParse(c *caddy.Controller) (*CoreDNSMySql, error) {
 					return &CoreDNSMySql{}, c.ArgErr()
 				}
 				mysql.Dsn = c.Val()
-			case "table_prefix":
+			case "table":
 				if !c.NextArg() {
 					return &CoreDNSMySql{}, c.ArgErr()
 				}
-				mysql.TablePrefix = c.Val()
+				mysql.TableName = c.Val()
 			case "max_lifetime":
 				if !c.NextArg() {
 					return &CoreDNSMySql{}, c.ArgErr()
@@ -134,8 +134,6 @@ func mysqlParse(c *caddy.Controller) (*CoreDNSMySql, error) {
 		return nil, err
 	}
 	defer db.Close()
-
-	mysql.tableName = mysql.TablePrefix + "records"
 
 	return &mysql, nil
 }

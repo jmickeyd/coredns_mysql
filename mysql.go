@@ -17,7 +17,7 @@ func (handler *CoreDNSMySql) findRecord(zone string, name string, types ...strin
 
 	query := strings.TrimSuffix(name, "." + zone)
 	sqlQuery := fmt.Sprintf("SELECT name, zone, ttl, record_type, content FROM %s WHERE zone = ? AND name = ? AND record_type IN ('%s')",
-		handler.tableName,
+		handler.TableName,
 		strings.Join(types, "','"))
 	result, err := db.Query(sqlQuery, zone, query)
 	if err != nil {
@@ -56,7 +56,7 @@ func (handler *CoreDNSMySql) loadZones() error {
 	}
 	defer db.Close()
 
-	result, err := db.Query("SELECT DISTINCT zone FROM " + handler.tableName)
+	result, err := db.Query("SELECT DISTINCT zone FROM " + handler.TableName)
 	if err != nil {
 		return err
 	}
