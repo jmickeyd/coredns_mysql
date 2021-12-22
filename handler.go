@@ -115,7 +115,7 @@ func (handler *CoreDNSMySql) ServeDNS(ctx context.Context, w dns.ResponseWriter,
 }
 
 // Name implements the Handler interface.
-func (handler *CoreDNSMySql) Name() string { return "handler" }
+func (handler *CoreDNSMySql) Name() string { return "mysql" }
 
 func (handler *CoreDNSMySql) errorResponse(state request.Request, rCode int, err error) (int, error) {
 	m := new(dns.Msg)
